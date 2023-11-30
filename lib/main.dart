@@ -1,15 +1,21 @@
 import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/router.dart';
 import 'package:chat_app/utils/colors.dart';
-import 'package:chat_app/view/home_layout_screen.dart';
+import 'package:chat_app/view/auth/view/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,12 +24,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       debugShowCheckedModeBanner: false,
-      title: 'Whatsapp UI',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: backgroundColor,
-      ),
-      home:const HomeLayout()
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Whatsapp UI',
+        theme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: backgroundColor,
+            appBarTheme: const AppBarTheme(color: appBarColor)),
+        onGenerateRoute: (settings) => generateRoute(settings),
+        home: const LoginScreen());
   }
 }
